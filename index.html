@@ -21,11 +21,45 @@
   </style>
 </head>
 <body style="margin: 0; overflow: hidden;">
+    <a-scene webxr="requiredFeatures: hit-test;">
+      <a-camera position="0 1.6 0"></a-camera>
+
+      <!-- タップでモンスターを配置 -->
+      <a-entity id="monster"
+                geometry="primitive: plane; height: 1; width: 1"
+                material="shader: flat; src: monster.png"
+                visible="false">
+      </a-entity>
+    </a-scene>
+
+    <script>
+      AFRAME.registerComponent('place-on-floor', {
+        init: function () {
+          const scene = this.el;
+          const monster = document.getElementById('monster');
+
+          scene.addEventListener('click', (event) => {
+            const xrHit = event.detail.intersection;
+            if (xrHit) {
+              // 床の位置にモンスターを配置
+              monster.setAttribute('position', `${xrHit.point.x} ${xrHit.point.y} ${xrHit.point.z}`);
+              monster.setAttribute('visible', true);
+            }
+          });
+        }
+      });
+
+      document.querySelector('a-scene').setAttribute('place-on-floor', '');
+    </script>
+  </body>
+</html>
+<!-- 
+<body style="margin: 0; overflow: hidden;">
   <div id="ui">モンスターが現れた！</div>
 
   <a-scene embedded arjs>
     <a-marker preset="hiro">
-      <!-- 2Dのドット絵モンスター（画像を適宜変更） -->
+      <!-- 2Dのドット絵モンスター（画像を適宜変更） 
       <a-image id="monster" src="character_monster_slime_green.png" position="0 0 0" scale="1 1 1"></a-image>
     </a-marker>
     <a-entity camera></a-entity>
@@ -48,4 +82,5 @@
     });
   </script>
 </body>
-</html>
+
+</html>  -->
