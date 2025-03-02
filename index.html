@@ -36,7 +36,7 @@
     const ui = document.getElementById("ui");
     const monster = document.getElementById("monster");
 
-    monster.addEventListener("click", function () {
+    monster.addEventListener("touchstart", function () {
       let damage = Math.floor(Math.random() * 10) + 5; // 5~15のダメージ
       monsterHP -= damage;
       ui.innerText = `モンスターに${damage}のダメージ！ (HP: ${monsterHP})`;
